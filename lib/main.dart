@@ -4,7 +4,7 @@ import 'package:gacha_app/providers/database_provider.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'domains/Entity/gacha_item_entity.dart';
-import 'views/gacha_item_list_page.dart';
+import 'views/top_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Flutterの初期化待ち
@@ -18,9 +18,7 @@ void main() async {
 
   runApp(
     ProviderScope(
-      overrides: [
-        isarProvider.overrideWithValue(isar),
-      ],
+      overrides: [ isarProvider.overrideWithValue(isar) ],
       child: const MyApp(),
     ),
   );
@@ -34,10 +32,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '無限ガチャアプリ',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const GachaPage(),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const TopPage(),
     );
   }
 }
