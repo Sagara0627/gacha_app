@@ -4,8 +4,8 @@ import 'package:gacha_app/providers/gacha_item_entity_provider.dart';
 import 'package:gacha_app/providers/database_provider.dart';
 import '../domains/Entity/gacha_item_entity.dart';
 
-class GachaPage extends ConsumerWidget {
-  const GachaPage({super.key});
+class GachaManagePage extends ConsumerWidget {
+  const GachaManagePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,7 +14,7 @@ class GachaPage extends ConsumerWidget {
     final isar = ref.watch(isarProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('アイテム一覧')),
+      appBar: AppBar(title: const Text('ガチャ管理')),
       body: gachaItemsAsync.when(
         data: (items) => items.isEmpty 
           ? const Center(child: Text('アイテムがありません。右下の＋で追加！'))
