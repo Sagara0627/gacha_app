@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import './gacha_manage_page.dart';
 import 'package:gacha_app/domains/Entity/gacha_series_entity.dart';
 import 'package:gacha_app/widgets/common/common_layout.dart';
+import 'package:gacha_app/widgets/common/custom_app_bar.dart';
 import 'package:gacha_app/widgets/common/navigation_button.dart';
 import 'package:gacha_app/providers/database_provider.dart';
 
@@ -17,7 +18,7 @@ class GachaCreatePage extends ConsumerWidget {
     final isar = ref.watch(isarProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('シリーズ新規作成')),
+      appBar: CustomAppBar(title: 'シリーズ新規作成'),
       body: CommonLayout(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

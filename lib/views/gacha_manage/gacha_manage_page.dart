@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import './gacha_create_page.dart';
 import 'package:gacha_app/widgets/common/common_layout.dart';
+import 'package:gacha_app/widgets/common/custom_app_bar.dart';
 import 'package:gacha_app/widgets/common/navigation_button.dart';
 import 'package:gacha_app/providers/gacha_series_entity_provider.dart';
 
@@ -14,7 +15,7 @@ class GachaManagePage extends ConsumerWidget {
     final gachaSeriessAsync = ref.watch(gachaSeriesEntityListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('ガチャシリーズ一覧')),
+      appBar: CustomAppBar(title: 'ガチャシリーズ一覧'),
       body: CommonLayout(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

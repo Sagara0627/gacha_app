@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gacha_app/widgets/common/common_layout.dart';
+import 'package:gacha_app/widgets/common/custom_app_bar.dart';
 import 'package:gacha_app/widgets/common/navigation_button.dart';
 import 'gacha/gacha_page.dart';
 import 'gacha_collection/gacha_collection_page.dart';
@@ -12,7 +13,7 @@ class TopPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('トップ画面')),
+      appBar: CustomAppBar(title: 'トップ画面'),
       body: CommonLayout(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gacha_app/widgets/common/common_layout.dart';
+import 'package:gacha_app/widgets/common/custom_app_bar.dart';
 import 'package:gacha_app/providers/gacha_item_entity_provider.dart';
 import 'package:gacha_app/providers/database_provider.dart';
 import '../../domains/Entity/gacha_item_entity.dart';
@@ -15,7 +16,7 @@ class GachaPage extends ConsumerWidget {
     final isar = ref.watch(isarProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('ガチャ画面')),
+      appBar: CustomAppBar(title: 'ガチャ画面'),
       body: CommonLayout(
         child: gachaItemsAsync.when(
           data: (items) => items.isEmpty 
