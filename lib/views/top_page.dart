@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gacha_app/widgets/common_layout.dart';
-import 'package:gacha_app/widgets/navigation_button.dart';
+import 'package:gacha_app/widgets/common/common_layout.dart';
+import 'package:gacha_app/widgets/common/navigation_button.dart';
 import 'gacha/gacha_page.dart';
 import 'gacha_collection/gacha_collection_page.dart';
 import 'gacha_manage/gacha_manage_page.dart';

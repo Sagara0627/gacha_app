@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import './gacha_manage_page.dart';
 import 'package:gacha_app/domains/Entity/gacha_series_entity.dart';
-import 'package:gacha_app/widgets/common_layout.dart';
-import 'package:gacha_app/widgets/navigation_button.dart';
+import 'package:gacha_app/widgets/common/common_layout.dart';
+import 'package:gacha_app/widgets/common/navigation_button.dart';
 import 'package:gacha_app/providers/database_provider.dart';
 
 final gachaNameProvider = StateProvider.autoDispose<String>((ref) => '');

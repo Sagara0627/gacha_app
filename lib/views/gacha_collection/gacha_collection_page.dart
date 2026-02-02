@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gacha_app/widgets/common_layout.dart';
+import 'package:gacha_app/widgets/common/common_layout.dart';
 import 'package:gacha_app/providers/gacha_item_entity_provider.dart';
 
 class GachaCollectionPage extends ConsumerWidget {

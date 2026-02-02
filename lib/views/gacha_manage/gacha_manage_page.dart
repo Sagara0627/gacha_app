@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import './gacha_create_page.dart';
-import 'package:gacha_app/widgets/common_layout.dart';
-import 'package:gacha_app/widgets/navigation_button.dart';
+import 'package:gacha_app/widgets/common/common_layout.dart';
+import 'package:gacha_app/widgets/common/navigation_button.dart';
 import 'package:gacha_app/providers/gacha_series_entity_provider.dart';
 
 class GachaManagePage extends ConsumerWidget {
