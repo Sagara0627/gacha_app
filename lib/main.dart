@@ -4,6 +4,7 @@ import 'package:gacha_app/providers/database_provider.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'domains/Entity/gacha_item_entity.dart';
+import 'domains/Entity/gacha_series_entity.dart';
 import 'views/top_page.dart';
 
 void main() async {
@@ -12,7 +13,10 @@ void main() async {
   final dir = await getApplicationDocumentsDirectory(); // 保存先ディレクトリの取得
 
   final isar = await Isar.open(
-    [GachaItemEntitySchema],
+    [
+      GachaItemEntitySchema,
+      GachaSeriesEntitySchema,
+    ],
     directory: dir.path,
   );
 

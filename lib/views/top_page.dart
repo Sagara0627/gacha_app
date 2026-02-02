@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gacha_app/widgets/common_layout.dart';
 import 'package:gacha_app/widgets/navigation_button.dart';
-import 'gacha_page.dart';
-import 'gacha_collection_page.dart';
-import 'gacha_manage_page.dart';
+import 'gacha/gacha_page.dart';
+import 'gacha_collection/gacha_collection_page.dart';
+import 'gacha_manage/gacha_manage_page.dart';
 
 class TopPage extends ConsumerWidget {
   const TopPage({super.key});
@@ -17,9 +17,18 @@ class TopPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            NavigationButton(destination: GachaPage(), text: 'ガチャ画面へ'),
-            NavigationButton(destination: GachaCollectionPage(), text: 'コレクション画面へ'),
-            NavigationButton(destination: GachaManagePage(), text: 'ガチャ管理へ'),
+            NavigationButton(
+              text: 'ガチャ画面へ',
+              onPressed: () => { Navigator.push(context, MaterialPageRoute(builder: (context) => GachaPage())) },
+            ),
+            NavigationButton(
+              text: 'コレクション画面へ',
+              onPressed: () => { Navigator.push(context, MaterialPageRoute(builder: (context) => GachaCollectionPage())) },
+            ),
+            NavigationButton(
+              text: 'ガチャ管理へ',
+              onPressed: () => { Navigator.push(context, MaterialPageRoute(builder: (context) => GachaManagePage())) },
+            ),
           ],
         ),
       ),

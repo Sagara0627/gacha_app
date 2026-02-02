@@ -18,15 +18,15 @@ class GachaCollectionPage extends ConsumerWidget {
           data: (items) => items.isEmpty 
             ? const Center(child: Text('アイテムがありません。右下の＋で追加！'))
             : ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  final item = items[index];
-                  return ListTile(
-                    title: Text(item.name),
-                    subtitle: Text('レア度: ${item.rarity} (重み: ${item.weight})'),
-                  );
-                },
-              ),
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return ListTile(
+                  title: Text(item.name),
+                  subtitle: Text('レア度: ${item.rarity} (重み: ${item.weight})'),
+                );
+              },
+            ),
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(child: Text('エラー: $err')),
         ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class NavigationButton extends StatelessWidget {
-  final Widget destination;
+  final VoidCallback onPressed;
   final String text;
 
-  const NavigationButton({ super.key, required this.destination, required this.text });
+  const NavigationButton({ super.key, required this.onPressed, required this.text });
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class NavigationButton extends StatelessWidget {
       alignment: MainAxisAlignment.start,
       children: [
         ElevatedButton(
-          onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => destination)); },
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,
             foregroundColor: Colors.white,

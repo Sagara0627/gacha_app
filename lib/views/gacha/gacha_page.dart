@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gacha_app/widgets/common_layout.dart';
 import 'package:gacha_app/providers/gacha_item_entity_provider.dart';
 import 'package:gacha_app/providers/database_provider.dart';
-import '../domains/Entity/gacha_item_entity.dart';
+import '../../domains/Entity/gacha_item_entity.dart';
 
 class GachaPage extends ConsumerWidget {
   const GachaPage({super.key});
