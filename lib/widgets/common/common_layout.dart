@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import './custom_app_bar.dart';
+import './custom_drawer.dart';
 
 class CommonLayout extends StatelessWidget {
   final Widget child;
+  final String title;
+  final Widget? floatingActionButton;
 
-  const CommonLayout({super.key, required this.child});
+  const CommonLayout({
+    super.key,
+    required this.child,
+    required this.title,
+    this.floatingActionButton,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: child,
+    return Scaffold(
+      appBar: CustomAppBar(title: title),
+      endDrawer: const CustomDrawer(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: child,
+      ),
+      floatingActionButton: floatingActionButton,
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import './gacha_manage_page.dart';
 import 'package:gacha_app/domains/Entity/gacha_series_entity.dart';
 import 'package:gacha_app/widgets/common/common_layout.dart';
-import 'package:gacha_app/widgets/common/custom_app_bar.dart';
 import 'package:gacha_app/widgets/common/navigation_button.dart';
 import 'package:gacha_app/providers/database_provider.dart';
 
@@ -17,34 +16,29 @@ class GachaCreatePage extends ConsumerWidget {
     final name = ref.watch(gachaNameProvider);
     final isar = ref.watch(isarProvider);
 
-    return Scaffold(
-      appBar: CustomAppBar(title: 'シリーズ新規作成'),
-      body: CommonLayout(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              maxLength: 20,
-              onChanged: (value) => ref.read(gachaNameProvider.notifier).state = value,
-            ),
-            NavigationButton(
-              text: '保存',
-              onPressed: () async {
-                // ダミーデータの作成
-                final newItem = GachaSeriesEntity()..name = name;
-                await isar.writeTxn(() => isar.gachaSeriesEntitys.put(newItem));
-
-                if (context.mounted) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const GachaManagePage()),
-                  );
-                }
-              },
-              // destination: GachaManagePage(), text: '保存',
-            ),
-          ],
-        ),
+    return CommonLayout(
+      title: 'シリーズ新規作成',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+            maxLength: 20,
+            onChanged: (value) => ref.read(gachaNameProvider.notifier).state = value,
+          ),
+          NavigationButton(
+            text: '保存',
+            onPressed: () async {
+              final newItem = GachaSeriesEntity()..name = name;
+              await isar.writeTxn(() => isar.gachaSeriesEntitys.put(newItem));
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GachaManagePage()),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }
