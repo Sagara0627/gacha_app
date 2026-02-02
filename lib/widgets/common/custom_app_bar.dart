@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:gacha_app/views/top_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final bool showHomeButton;
 
   const CustomAppBar({
     super.key,
     required this.title,
+    this.showHomeButton = true,
   });
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title),
       centerTitle: true,
-      leading: IconButton(
-        icon: const Icon(Icons.home),
-        onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => TopPage())); },
-      ),
+      automaticallyImplyLeading: false,
+      leading: showHomeButton
+        ? IconButton(
+            icon: const Icon(Icons.home),
+            onPressed: () { Navigator.of(context).popUntil((route) => route.isFirst); },
+          )
+        : null,
       actions: [
         Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.menu),
-            onPressed: () { Scaffold.of(context).openDrawer(); }, 
+            onPressed: () { Scaffold.of(context).openEndDrawer(); }, 
           ),
         ),
       ],

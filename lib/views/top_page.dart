@@ -13,6 +13,7 @@ class TopPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return CommonLayout(
       title: 'トップ画面',
+      showHomeButton: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
