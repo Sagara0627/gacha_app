@@ -9,6 +9,10 @@ class GachaItemEntity {
 
   @Index(type: IndexType.value)
   late String name; // アイテム名
+
+  @Index()
+  late int seriesId; // ガチャシリーズ
+
   late String rarity; // レアリティ
   late int weight; // 確率
 }

@@ -7,7 +7,15 @@ import '/domains/Entity/gacha_item_entity.dart';
 final gachaItemEntityListProvider = StreamProvider<List<GachaItemEntity>>((ref) {
   final isar = ref.watch(isarProvider);
   
-  // .watch(fireImmediately: true) を使うことで、
-  // 最初の一回＋中身が変わるたびに最新のリストを流してくれる
+  // .watch(fireImmediately: true) を使うことで、最初の一回＋中身が変わるたびに最新のリストを流してくれる
   return isar.gachaItemEntitys.where().watch(fireImmediately: true);
+});
+
+// ガチャアイテムをシリーズIDで絞り込むStream
+final gachaItemsFilteredSeriesIdProvider = StreamProvider.family.autoDispose<List<GachaItemEntity>, int>((ref, seriesId) {
+  final isar = ref.watch(isarProvider);
+  return isar.gachaItemEntitys
+      .where()
+      .seriesIdEqualTo(seriesId)
+      .watch(fireImmediately: true);
 });

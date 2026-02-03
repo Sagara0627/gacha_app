@@ -27,8 +27,13 @@ const GachaItemEntitySchema = CollectionSchema(
       name: r'rarity',
       type: IsarType.string,
     ),
-    r'weight': PropertySchema(
+    r'seriesId': PropertySchema(
       id: 2,
+      name: r'seriesId',
+      type: IsarType.long,
+    ),
+    r'weight': PropertySchema(
+      id: 3,
       name: r'weight',
       type: IsarType.long,
     )
@@ -49,6 +54,19 @@ const GachaItemEntitySchema = CollectionSchema(
           name: r'name',
           type: IndexType.value,
           caseSensitive: true,
+        )
+      ],
+    ),
+    r'seriesId': IndexSchema(
+      id: -6366517829284187702,
+      name: r'seriesId',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'seriesId',
+          type: IndexType.value,
+          caseSensitive: false,
         )
       ],
     )
@@ -80,7 +98,8 @@ void _gachaItemEntitySerialize(
 ) {
   writer.writeString(offsets[0], object.name);
   writer.writeString(offsets[1], object.rarity);
-  writer.writeLong(offsets[2], object.weight);
+  writer.writeLong(offsets[2], object.seriesId);
+  writer.writeLong(offsets[3], object.weight);
 }
 
 GachaItemEntity _gachaItemEntityDeserialize(
@@ -93,7 +112,8 @@ GachaItemEntity _gachaItemEntityDeserialize(
   object.id = id;
   object.name = reader.readString(offsets[0]);
   object.rarity = reader.readString(offsets[1]);
-  object.weight = reader.readLong(offsets[2]);
+  object.seriesId = reader.readLong(offsets[2]);
+  object.weight = reader.readLong(offsets[3]);
   return object;
 }
 
@@ -109,6 +129,8 @@ P _gachaItemEntityDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readLong(offset)) as P;
+    case 3:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -140,6 +162,14 @@ extension GachaItemEntityQueryWhereSort
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'name'),
+      );
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterWhere> anySeriesId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'seriesId'),
       );
     });
   }
@@ -352,6 +382,99 @@ extension GachaItemEntityQueryWhere
               upper: [''],
             ));
       }
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterWhereClause>
+      seriesIdEqualTo(int seriesId) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'seriesId',
+        value: [seriesId],
+      ));
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterWhereClause>
+      seriesIdNotEqualTo(int seriesId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'seriesId',
+              lower: [],
+              upper: [seriesId],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'seriesId',
+              lower: [seriesId],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'seriesId',
+              lower: [seriesId],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'seriesId',
+              lower: [],
+              upper: [seriesId],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterWhereClause>
+      seriesIdGreaterThan(
+    int seriesId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'seriesId',
+        lower: [seriesId],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterWhereClause>
+      seriesIdLessThan(
+    int seriesId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'seriesId',
+        lower: [],
+        upper: [seriesId],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterWhereClause>
+      seriesIdBetween(
+    int lowerSeriesId,
+    int upperSeriesId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'seriesId',
+        lower: [lowerSeriesId],
+        includeLower: includeLower,
+        upper: [upperSeriesId],
+        includeUpper: includeUpper,
+      ));
     });
   }
 }
@@ -687,6 +810,62 @@ extension GachaItemEntityQueryFilter
   }
 
   QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterFilterCondition>
+      seriesIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'seriesId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterFilterCondition>
+      seriesIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'seriesId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterFilterCondition>
+      seriesIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'seriesId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterFilterCondition>
+      seriesIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'seriesId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterFilterCondition>
       weightEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -777,6 +956,20 @@ extension GachaItemEntityQuerySortBy
     });
   }
 
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterSortBy>
+      sortBySeriesId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'seriesId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterSortBy>
+      sortBySeriesIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'seriesId', Sort.desc);
+    });
+  }
+
   QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterSortBy> sortByWeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'weight', Sort.asc);
@@ -831,6 +1024,20 @@ extension GachaItemEntityQuerySortThenBy
     });
   }
 
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterSortBy>
+      thenBySeriesId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'seriesId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterSortBy>
+      thenBySeriesIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'seriesId', Sort.desc);
+    });
+  }
+
   QueryBuilder<GachaItemEntity, GachaItemEntity, QAfterSortBy> thenByWeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'weight', Sort.asc);
@@ -861,6 +1068,13 @@ extension GachaItemEntityQueryWhereDistinct
     });
   }
 
+  QueryBuilder<GachaItemEntity, GachaItemEntity, QDistinct>
+      distinctBySeriesId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'seriesId');
+    });
+  }
+
   QueryBuilder<GachaItemEntity, GachaItemEntity, QDistinct> distinctByWeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'weight');
@@ -885,6 +1099,12 @@ extension GachaItemEntityQueryProperty
   QueryBuilder<GachaItemEntity, String, QQueryOperations> rarityProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'rarity');
+    });
+  }
+
+  QueryBuilder<GachaItemEntity, int, QQueryOperations> seriesIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'seriesId');
     });
   }
 

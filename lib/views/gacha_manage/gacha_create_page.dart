@@ -6,14 +6,14 @@ import 'package:gacha_app/widgets/common/common_layout.dart';
 import 'package:gacha_app/widgets/common/navigation_button.dart';
 import 'package:gacha_app/providers/database_provider.dart';
 
-final gachaNameProvider = StateProvider.autoDispose<String>((ref) => '');
+final seriesNameProvider = StateProvider.autoDispose<String>((ref) => '');
 
 class GachaCreatePage extends ConsumerWidget {
   const GachaCreatePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final name = ref.watch(gachaNameProvider);
+    final name = ref.watch(seriesNameProvider);
     final isar = ref.watch(isarProvider);
 
     return CommonLayout(
@@ -23,7 +23,7 @@ class GachaCreatePage extends ConsumerWidget {
         children: <Widget>[
           TextField(
             maxLength: 20,
-            onChanged: (value) => ref.read(gachaNameProvider.notifier).state = value,
+            onChanged: (value) => ref.read(seriesNameProvider.notifier).state = value,
           ),
           NavigationButton(
             text: '保存',
