@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gacha_app/widgets/common/common_layout.dart';
-import 'package:gacha_app/providers/gacha_item_entity_provider.dart';
 import 'package:gacha_app/providers/database_provider.dart';
+import 'package:gacha_app/providers/gacha_series_entity_provider.dart';
+import 'package:gacha_app/views/gacha/gacha_pull_page.dart';
 import '../../domains/Entity/gacha_item_entity.dart';
 
 class GachaPage extends ConsumerWidget {
@@ -10,7 +11,7 @@ class GachaPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gachaItemsAsync = ref.watch(gachaItemEntityListProvider); // DBのデータをリアルタイム監視
+    final seriesAsync = ref.watch(gachaSeriesEntityListProvider); // DBのデータをリアルタイム監視
     final isar = ref.watch(isarProvider);
 
     return CommonLayout(
@@ -25,21 +26,33 @@ class GachaPage extends ConsumerWidget {
         },
         child: const Icon(Icons.add),
       ),
-      child: gachaItemsAsync.when(
-        data: (items) => items.isEmpty 
-          ? const Center(child: Text('アイテムがありません。右下の＋で追加！'))
-          : ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return ListTile(
-                title: Text(item.name),
-                subtitle: Text('レア度: ${item.rarity} (重み: ${item.weight})'),
-              );
-            },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: seriesAsync.when(
+              data: (allSeries) => allSeries.isEmpty
+                ? const Center(child: Text('作成済みのシリーズがありません。'))
+                : ListView.builder(
+                  itemCount: allSeries.length,
+                  itemBuilder: (context, index) {
+                    final series = allSeries[index];
+                    return TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => GachaPullPage(seriesId: series.id,)),
+                        );
+                      },
+                      child: Text(series.name)
+                    );
+                  },
+                ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Center(child: Text('エラー: $err')),
+            ),
           ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('エラー: $err')),
+        ],
       ),
     );
   }
