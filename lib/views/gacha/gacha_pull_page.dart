@@ -4,6 +4,7 @@ import 'package:gacha_app/domains/Entity/gacha_item_entity.dart';
 import 'package:gacha_app/services/GachaService.dart';
 import 'package:gacha_app/providers/gacha_item_entity_provider.dart';
 import 'package:gacha_app/widgets/common/common_layout.dart';
+import 'package:gacha_app/widgets/gacha/gacha_animation_screen.dart';
 
 class GachaPullPage extends ConsumerWidget {
   final int seriesId;
@@ -24,7 +25,7 @@ class GachaPullPage extends ConsumerWidget {
               ElevatedButton(
                 onPressed: items.isEmpty ? null : () {
                   final result = GachaService().draw(items);
-                  if (result != null) _showResultDialog(context, [result]); // リストにして渡す
+                  if (result != null) _startGachaSequence(context, [result]); // リストにして渡す
                 },
                 child: const Text('1回引く'),
               ),
@@ -35,7 +36,7 @@ class GachaPullPage extends ConsumerWidget {
                 onPressed: items.isEmpty ? null : () {
                   // 10回分抽選
                   final results = GachaService().drawMultiple(items, 10);
-                  _showResultDialog(context, results);
+                  _startGachaSequence(context, results);
                 },
                 child: const Text('10連ガチャ！！'),
               ),
@@ -48,28 +49,15 @@ class GachaPullPage extends ConsumerWidget {
     );
   }
 
-  void _showResultDialog(BuildContext context, List<GachaItemEntity> results) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(results.length == 1 ? '獲得アイテム' : '10連ガチャ結果'),
-        content: SizedBox(
-          width: double.maxFinite, // ダイアログの横幅を確保
-          child: ListView.builder(
-            shrinkWrap: true, // コンテンツの大きさに合わせる
-            itemCount: results.length,
-            itemBuilder: (context, index) {
-              final item = results[index];
-              return ListTile(
-                leading: CircleAvatar(child: Text(item.rarity)),
-                title: Text(item.name),
-              );
-            },
-          ),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
-        ],
+  void _startGachaSequence(BuildContext context, List<GachaItemEntity> results) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false, // 背景を透過させる
+        pageBuilder: (context, _, __) => GachaAnimationScreen(results: results),
+        transitionsBuilder: (context, animation, _, child) {
+          // フェードインで演出画面を表示
+          return FadeTransition(opacity: animation, child: child);
+        },
       ),
     );
   }
